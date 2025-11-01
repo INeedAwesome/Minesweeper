@@ -212,13 +212,6 @@ LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			TextOutA(hdc, gameWindowSize + 150, 50, flags.c_str(), flags.size());
 		}
 
-		{
-			SelectFont(hdc, normalTextFont);
-			SetTextAlign(hdc, TA_CENTER);
-			std::string flags = "m_RevealedSquaresAmount: " + std::to_string(game.GetAmountRevealed());
-			TextOutA(hdc, gameWindowSize + 150, 250, flags.c_str(), flags.size());
-		}
-
 		if (game.GetLost())
 		{
 			SelectFont(hdc, normalTextFont);
