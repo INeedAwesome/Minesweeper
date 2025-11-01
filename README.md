@@ -1,27 +1,17 @@
 # Minesweeper
 
 A simple minesweeper game in C++
-
+![Image of game](images/some_flags_placed.png)
+![You Lost](images/you_lost.png)
 
 ## Building
-***
-> Follow these steps for both operating systems and then go for OS specific instructions
 
-***NOTE:*** instructions may not be 100% accurate!
-
-* To use it, simply press "**Use this template**".
-* Create a repository
-* Clone your repository on your machine
-* Rename *TemplateApp* to your liking
-* Rename possible defines in the .lua file 
-***
 > To use in windows:
 
-* Run *setup.bat* in /scripts
+* Run *setup.bat* in the scripts folder
 * Open the .sln
 * Run desired configuration
 
-***
 > To use in linux: 
 
 * Run '*./scripts/premake5 gmake*' from the root of project
