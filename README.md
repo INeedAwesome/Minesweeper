@@ -1,7 +1,9 @@
-# An App Template
+# Minesweeper
 
-I've made an app template with premake because I wanted it to help me set up future projects easier.
+A simple minesweeper game in C++
 
+
+## Building
 ***
 > Follow these steps for both operating systems and then go for OS specific instructions
 
