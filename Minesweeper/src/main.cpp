@@ -212,11 +212,27 @@ LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			TextOutA(hdc, gameWindowSize + 150, 50, flags.c_str(), flags.size());
 		}
 
+		{
+			SelectFont(hdc, normalTextFont);
+			SetTextAlign(hdc, TA_CENTER);
+			std::string flags = "m_RevealedSquaresAmount: " + std::to_string(game.GetAmountRevealed());
+			TextOutA(hdc, gameWindowSize + 150, 250, flags.c_str(), flags.size());
+		}
+
 		if (game.GetLost())
 		{
 			SelectFont(hdc, normalTextFont);
 			SetTextAlign(hdc, TA_CENTER);
 			std::string lost = "You Lost!";
+			std::string restart = "Press 'R' to restart!";
+			TextOutA(hdc, gameWindowSize + 150, 100, lost.c_str(), lost.size());
+			TextOutA(hdc, gameWindowSize + 150, 140, restart.c_str(), restart.size());
+		}
+		if (game.GetWon())
+		{
+			SelectFont(hdc, normalTextFont);
+			SetTextAlign(hdc, TA_CENTER);
+			std::string lost = "You Won!";
 			std::string restart = "Press 'R' to restart!";
 			TextOutA(hdc, gameWindowSize + 150, 100, lost.c_str(), lost.size());
 			TextOutA(hdc, gameWindowSize + 150, 140, restart.c_str(), restart.size());
@@ -335,7 +351,7 @@ LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Init(HWND hWnd)
 {
-	game.Init(60);
+	game.Init(20);
 	hdc = GetDC(hWnd); 
 	SetBkMode(hdc, TRANSPARENT); //Sets background for text to Transparent
 

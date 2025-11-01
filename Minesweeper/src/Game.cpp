@@ -8,7 +8,10 @@
 
 void Game::Init(uint32_t amountMines)
 {
+	m_AmountMines = amountMines;
 	m_FlagsLeft = amountMines;
+	m_RevealedSquaresAmount = 0;
+	m_State = Playing;
 
 	for (int i = 0; i < m_Cells.size(); i++)// Just simply initialize the cells to the correct values.
 	{
@@ -31,7 +34,7 @@ void Game::Init(uint32_t amountMines)
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine engine(seed);
 	
-	for (uint32_t i = 0; i < amountMines; i++)
+	for (uint32_t i = 0; i < m_AmountMines; i++)
 	{
 		uint32_t randIdx = engine() % (CELLS_WIDTH * CELLS_WIDTH);
 		if (m_Cells[randIdx].Type != DrawableType::Bomb)
@@ -107,7 +110,7 @@ void Game::Cleanup()
 
 void Game::TryExpose(int xpos, int ypos)
 {
-	if (m_Lost)
+	if (m_State == Lost)
 		return;
 
 	int idx = ypos * CELLS_WIDTH + xpos;
@@ -116,11 +119,16 @@ void Game::TryExpose(int xpos, int ypos)
 	if (m_Cells[idx].Type != Bomb)
 	{
 		RevealEmptyArea(Vector2{ xpos, ypos });
+
+		bool won = false;
+		if (m_RevealedSquaresAmount + m_AmountMines == CELLS_WIDTH * CELLS_WIDTH)
+			m_State = Won;
+
 	}
 	else // Bomb clicked
 	{
 		// You Lost
-		m_Lost = true;
+		m_State = Lost;
 
 		// Reveal bombs
 		for (int i = 0; i < m_Cells.size(); i++)
@@ -139,7 +147,7 @@ void Game::TryExpose(int xpos, int ypos)
 
 void Game::TryPlaceFlag(int xpos, int ypos)
 {
-	if (m_Lost)
+	if (m_State == Lost)
 		return;
 
 	int idx = ypos * CELLS_WIDTH + xpos;
@@ -170,7 +178,7 @@ void Game::TryPlaceFlag(int xpos, int ypos)
 
 void Game::Reset()
 {
-	m_Lost = false;
+	m_State = Playing;
 	Init(60);
 }
 
@@ -234,6 +242,7 @@ void Game::RevealEmptyArea(const Vector2& startCell)
 
 		// Reveal it
 		shown.Type = hidden.Type;
+		m_RevealedSquaresAmount++;
 
 		// If it’s empty, we expand
 		if (hidden.Type == DrawableType::None)
@@ -255,6 +264,7 @@ void Game::RevealEmptyArea(const Vector2& startCell)
 					}
 					else if (neighborHidden.Type != DrawableType::Bomb)
 					{
+						m_RevealedSquaresAmount++;
 						// Reveal bordering numbers
 						neighborShown.Type = neighborHidden.Type;
 					}

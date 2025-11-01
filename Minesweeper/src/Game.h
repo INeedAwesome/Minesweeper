@@ -11,6 +11,11 @@ struct Vector2
 	Vector2(int _x, int _y) : x(_x), y(_y) {}
 };
 
+enum GameState
+{
+	Playing, Won, Lost
+};
+
 enum DrawableType
 {
 	None, 
@@ -42,8 +47,10 @@ public:
 
 	void Reset();
 
+	int GetAmountRevealed() const { return m_RevealedSquaresAmount; }
 	int GetAmountFlagsLeft() const { return m_FlagsLeft; }
-	bool GetLost() const { return m_Lost; }
+	bool GetLost() const { return m_State == Lost; }
+	bool GetWon() const { return m_State == Won; }
 	std::array<DrawableObject, CELLS_WIDTH * CELLS_WIDTH>& GetCells() { return m_ShowingCells; }
 
 	
@@ -55,8 +62,12 @@ private:
 	std::array<DrawableObject, CELLS_WIDTH* CELLS_WIDTH> m_Cells;
 	std::array<DrawableObject, CELLS_WIDTH* CELLS_WIDTH> m_ShowingCells;
 	
-	bool m_Lost = false;
+	int m_AmountMines = 0;
 	int m_FlagsLeft = 0;
+
+	int m_RevealedSquaresAmount = 0;
+
+	GameState m_State = GameState::Playing;
 
 };
 
