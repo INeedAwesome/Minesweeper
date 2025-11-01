@@ -1,0 +1,18 @@
+
+# Directories
+.vs/
+bin/
+bin-int/
+
+# Files
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+
+# make files
+Makefile
+
+# Exclude
+!vendor/bin
+!scripts/
