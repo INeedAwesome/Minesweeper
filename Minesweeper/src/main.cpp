@@ -351,7 +351,7 @@ LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Init(HWND hWnd)
 {
-	game.Init(20);
+	game.Init(60);
 	hdc = GetDC(hWnd); 
 	SetBkMode(hdc, TRANSPARENT); //Sets background for text to Transparent
 
