@@ -117,20 +117,20 @@ BOOL InitializeWindow(HINSTANCE hInstance)
 }
 
 //------------------------------------------------
-// En windowsprocedur som anropas fr�n winmain och tar hand om meddelanden fr�n applikationen
-// hWnd		- hanterare till aktuellt f�nster
-// message	- meddelandet som skall hanteras
-// wParam	- 32bit WORD parameter med ytterligare information om vad som skall g�ras.
-// lParam	- 32bit LONG parameter
-// wParam och lParam inneh�ll varierar beroende p� vad meddelandet skall utf�ra
+// A windows procedure that is called from winmain and handles messages from the application
+// hWnd		- handle to current window
+// message	- message to be proceessed
+// wParam	- 32bit WORD parameter with more information about what to do.
+// lParam	- 32bit LONG parameter with more information about what to do.
+// wParam and lParam contents vary depending on what the message is supposed to do.
 //------------------------------------------------
 LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps; //Anv�nds av WM_PAINT
+	PAINTSTRUCT ps; //Used by WM_PAINT
 
 	switch (message)
 	{
-	case WM_CREATE: //WM_CREATE k�rs innan applikationen visas och endast d�!
+	case WM_CREATE: //WM_CREATE runs right before application window is opened
 	{
 		Init(hWnd);
 		break;
@@ -144,12 +144,19 @@ LRESULT CALLBACK winproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		if (wParam == 'R')
 			game.Reset();
+		if (wParam == '1')
+			game.SetAmountOfMinesAndReset(40);
+		if (wParam == '2')
+			game.SetAmountOfMinesAndReset(60);
+		if (wParam == '3')
+			game.SetAmountOfMinesAndReset(70);
+			
 
 		InvalidateRect(hWnd, NULL, TRUE); // Everytime we click we clear the screen.
 
 		break;
 	}
-	case WM_LBUTTONDOWN: //WM_LBUTTONDOWN k�rs n�r du trycker p� v�nster musknapp
+	case WM_LBUTTONDOWN: //WM_LBUTTONDOWN runs when pressing left mouse button
 	{
 		int xpos = GET_X_LPARAM(lParam);
 		int ypos = GET_Y_LPARAM(lParam);

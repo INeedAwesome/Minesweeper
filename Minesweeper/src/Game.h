@@ -45,6 +45,8 @@ public:
 	void TryExpose(int xpos, int ypos);
 	void TryPlaceFlag(int xpos, int ypos);
 
+	void SetAmountOfMinesAndReset(int amountMines);
+
 	void Reset();
 
 	int GetAmountRevealed() const { return m_RevealedSquaresAmount; }
@@ -68,6 +70,8 @@ private:
 	int m_RevealedSquaresAmount = 0;
 
 	GameState m_State = GameState::Playing;
+
+	bool debug_GameStarted = false;
 
 };
 

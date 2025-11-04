@@ -114,8 +114,18 @@ void Game::TryExpose(int xpos, int ypos)
 		return;
 
 	int idx = ypos * CELLS_WIDTH + xpos;
+
+	while (!debug_GameStarted)
+	{
+		Reset();
+		RevealEmptyArea(Vector2{ xpos, ypos });
+
+	}
+
 	if (m_ShowingCells[idx].Type == Flag)
 		return;
+
+
 	if (m_Cells[idx].Type != Bomb)
 	{
 		RevealEmptyArea(Vector2{ xpos, ypos });
@@ -135,10 +145,6 @@ void Game::TryExpose(int xpos, int ypos)
 		{
 			if (m_Cells[i].Type == Bomb)
 			{
-				/*if (m_ShowingCells[i].Type == NonRevealed)
-				{
-					m_ShowingCells[i].Type = Bomb;
-				}*/
 				m_ShowingCells[i].Type = Bomb;
 			}
 		}
@@ -176,10 +182,17 @@ void Game::TryPlaceFlag(int xpos, int ypos)
 
 }
 
+void Game::SetAmountOfMinesAndReset(int amountMines)
+{
+	m_AmountMines = amountMines;
+	Reset();
+}
+
 void Game::Reset()
 {
 	m_State = Playing;
-	Init(60);
+	Init(m_AmountMines);
+	debug_GameStarted = false;
 }
 
 std::vector<Vector2> Game::GetNeighbors(const Vector2& cell)
@@ -261,12 +274,14 @@ void Game::RevealEmptyArea(const Vector2& startCell)
 
 						// Reveal bordering numbers
 						neighborShown.Type = neighborHidden.Type;
+						debug_GameStarted = true;
 					}
 					else if (neighborHidden.Type != DrawableType::Bomb)
 					{
 						m_RevealedSquaresAmount++;
 						// Reveal bordering numbers
 						neighborShown.Type = neighborHidden.Type;
+						debug_GameStarted = true;
 					}
 				}
 			}
